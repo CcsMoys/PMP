@@ -1,14 +1,21 @@
-// Ejemplo de gráfico de gastos por categoría
-document.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('grafico-gastos').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
+// Gráfico de ahorros
+function initGraficoAhorros() {
+    const ctx = document.getElementById('grafico-ahorros').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: ['Alimentación', 'Transporte', 'Ocio'],
+            labels: ['Ene', 'Feb', 'Mar'],
             datasets: [{
-                data: [300, 150, 100],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                label: 'Ahorro acumulado',
+                data: [200, 400, 600],
+                borderColor: '#4CAF50'
             }]
         }
     });
-});
+
+    // Actualizar datos dinámicamente
+    window.actualizarGraficoAhorros = (datos) => {
+        chart.data.datasets[0].data = datos;
+        chart.update();
+    };
+}

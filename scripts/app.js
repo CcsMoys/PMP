@@ -1,49 +1,47 @@
-// Datos iniciales (se guardan en localStorage)
-let presupuesto = {
-    ingresos: [
-        { concepto: "Salario", esperado: 2250, real: 2246 },
-        { concepto: "Comisión", esperado: 300, real: 302.5 }
-    ],
-    gastosFijos: [
-        { concepto: "Arriendo", previsto: 450, real: 450, pagado: true }
-    ]
-};
-
-// Cargar datos al iniciar
-document.addEventListener('DOMContentLoaded', () => {
-    cargarDatos();
-    initTabs();
+// ==== Gestión de Gastos Variables ====
+document.getElementById('agregar-gasto').addEventListener('click', () => {
+    const tabla = document.getElementById('tabla-gastos-variables').querySelector('tbody');
+    const nuevaFila = `
+        <tr>
+            <td contenteditable="true">Nuevo gasto</td>
+            <td contenteditable="true">Alimentación</td>
+            <td contenteditable="true">${new Date().toLocaleDateString()}</td>
+            <td contenteditable="true">0</td>
+        </tr>
+    `;
+    tabla.innerHTML += nuevaFila;
+    actualizarResumen();
 });
 
-// Función para cargar datos en las tablas
-function cargarDatos() {
-    // Llenar tabla de ingresos
-    const tablaIngresos = document.getElementById('tabla-ingresos').querySelector('tbody');
-    tablaIngresos.innerHTML = presupuesto.ingresos.map(item => `
+// ==== Gestión de Ahorros ====
+document.getElementById('agregar-ahorro').addEventListener('click', () => {
+    const tabla = document.getElementById('tabla-ahorros').querySelector('tbody');
+    const nuevaFila = `
         <tr>
-            <td contenteditable="true">${item.concepto}</td>
-            <td contenteditable="true">${item.esperado}</td>
-            <td contenteditable="true">${item.real}</td>
+            <td contenteditable="true">Viaje</td>
+            <td contenteditable="true">Ahorro</td>
+            <td contenteditable="true">1000</td>
+            <td contenteditable="true">0</td>
         </tr>
-    `).join('');
+    `;
+    tabla.innerHTML += nuevaFila;
+    actualizarGraficoAhorros();
+});
 
-    // Similar para gastos fijos/variables
-}
-
-// Función para cambiar pestañas
-function initTabs() {
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab, .tab-content').forEach(el => {
-                el.classList.remove('active');
-            });
-            tab.classList.add('active');
-            document.getElementById(tab.dataset.tab).classList.add('active');
-        });
+// ==== Exportar a PDF ====
+document.getElementById('exportar-pdf').addEventListener('click', () => {
+    import('jspdf').then(({ jsPDF }) => {
+        const doc = new jsPDF();
+        doc.text('Resumen de Presupuesto', 10, 10);
+        doc.save('presupuesto.pdf');
     });
+});
+
+// ==== Funciones auxiliares ====
+function actualizarResumen() {
+    // Lógica para calcular totales y actualizar gráficos
 }
 
-// Guardar datos en localStorage
-function guardarDatos() {
-    localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
+function actualizarGraficoAhorros() {
+    // Actualizar gráfico de Chart.js
 }
