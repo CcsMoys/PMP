@@ -56,23 +56,31 @@
         </div>
 
         <!-- Contenido de las pestañas -->
-        <div id="ingresos" class="tab-content active">
-            <h2>Ingresos Mensuales</h2>
-            <table id="tabla-ingresos">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Esperado</th>
-                        <th>Real</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Filas dinámicas (se llenan con JS) -->
-                </tbody>
-            </table>
-            <button id="agregar-ingreso">+ Añadir Ingreso</button>
-        </div>
-
+        <!-- Reemplaza la sección de ingresos con esta tabla estilo Excel -->
+<div id="ingresos" class="tab-content active">
+    <h2>Ingresos Mensuales</h2>
+    <table class="excel-style">
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Esperado</th>
+                <th>Real</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Salario</td>
+                <td class="number">2,250.00</td>
+                <td class="number">2,246.00</td>
+            </tr>
+            <tr>
+                <td>Comisión</td>
+                <td class="number">300.00</td>
+                <td class="number">302.50</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
         <div id="gastos-fijos" class="tab-content">
             <!-- Similar estructura para gastos fijos -->
         </div>
