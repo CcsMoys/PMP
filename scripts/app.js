@@ -1,49 +1,49 @@
-let graficoBarras, graficoCircular;
+// Datos iniciales (se guardan en localStorage)
+let presupuesto = {
+    ingresos: [
+        { concepto: "Salario", esperado: 2250, real: 2246 },
+        { concepto: "Comisión", esperado: 300, real: 302.5 }
+    ],
+    gastosFijos: [
+        { concepto: "Arriendo", previsto: 450, real: 450, pagado: true }
+    ]
+};
 
-function actualizarDashboard() {
-    const mesSeleccionado = document.getElementById('mes').value;
-    const tipoSeleccionado = document.getElementById('tipo').value;
-    
-    // Filtrar datos
-    const datosFiltrados = window.datosPresupuesto.filter(item => {
-        return (mesSeleccionado === 'all' || item.mes === mesSeleccionado) &&
-               (tipoSeleccionado === 'all' || item.tipo === tipoSeleccionado);
-    });
+// Cargar datos al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    cargarDatos();
+    initTabs();
+});
 
-    // Actualizar gráficos
-    actualizarGraficoBarras(datosFiltrados);
-    actualizarGraficoCircular(datosFiltrados);
-    actualizarTabla(datosFiltrados);
+// Función para cargar datos en las tablas
+function cargarDatos() {
+    // Llenar tabla de ingresos
+    const tablaIngresos = document.getElementById('tabla-ingresos').querySelector('tbody');
+    tablaIngresos.innerHTML = presupuesto.ingresos.map(item => `
+        <tr>
+            <td contenteditable="true">${item.concepto}</td>
+            <td contenteditable="true">${item.esperado}</td>
+            <td contenteditable="true">${item.real}</td>
+        </tr>
+    `).join('');
+
+    // Similar para gastos fijos/variables
 }
 
-function actualizarGraficoBarras(datos) {
-    const ctx = document.getElementById('graficoBarras').getContext('2d');
-    const meses = [...new Set(datos.map(item => item.mes))];
-    
-    if (graficoBarras) graficoBarras.destroy();
-    
-    graficoBarras = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: meses,
-            datasets: [
-                {
-                    label: 'Ingresos',
-                    data: meses.map(mes => sumarPorTipo(datos, mes, 'Ingreso')),
-                    backgroundColor: '#4BC0C0'
-                },
-                {
-                    label: 'Gastos',
-                    data: meses.map(mes => sumarPorTipo(datos, mes, 'Gasto Variable') + sumarPorTipo(datos, mes, 'Gasto Fijo')),
-                    backgroundColor: '#FF6384'
-                }
-            ]
-        }
+// Función para cambiar pestañas
+function initTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab, .tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
     });
 }
 
-function sumarPorTipo(datos, mes, tipo) {
-    return datos
-        .filter(item => item.mes === mes && item.tipo === tipo)
-        .reduce((sum, item) => sum + item.monto, 0);
+// Guardar datos en localStorage
+function guardarDatos() {
+    localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
 }

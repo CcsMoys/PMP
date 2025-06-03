@@ -1,24 +1,52 @@
+/* Estilos generales */
 body {
-    padding-top: 20px;
-    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
 }
 
-.card {
+.tabs {
+    display: flex;
     margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card-header {
-    background-color: #343a40;
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #ddd;
+    border: none;
+}
+
+.tab.active {
+    background: #4CAF50;
     color: white;
 }
 
-canvas {
-    max-height: 400px;
-    width: 100% !important;
+.tab-content {
+    display: none;
 }
 
-.table-responsive {
-    max-height: 400px;
-    overflow-y: auto;
+.tab-content.active {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+button {
+    padding: 8px 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
