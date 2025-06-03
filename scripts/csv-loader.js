@@ -1,36 +1,19 @@
-function parseCSV(csvText) {
-    const lines = csvText.split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
-    const data = [];
-    
-    for (let i = 1; i < lines.length; i++) {
-        if (lines[i].trim() === '') continue;
-        
-        const values = lines[i].split(',');
-        const entry = {};
-        
-        headers.forEach((header, index) => {
-            entry[header] = values[index] ? values[index].trim() : '';
+function cargarDatos() {
+    fetch('assets/datos-presupuesto.csv')
+        .then(response => response.text())
+        .then(csv => {
+            const datos = parsearCSV(csv);
+            window.datosPresupuesto = datos;
+            actualizarDashboard();
         });
-        
-        data.push(entry);
-    }
-    
-    return data;
 }
 
-function loadCSV(fileInputId, callback) {
-    const fileInput = document.getElementById(fileInputId);
-    
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const csvData = parseCSV(e.target.result);
-            callback(csvData);
-        };
-        
-        reader.readAsText(file);
-    });
+function parsearCSV(csv) {
+    const lineas = csv.split('\n');
+    const datos = [];
+    for (let i = 1; i < lineas.length; i++) {
+        const [mes, categoria, tipo, monto, obs] = lineas[i].split(',');
+        datos.push({ mes, categoria, tipo, monto: parseFloat(monto), obs });
+    }
+    return datos;
 }
